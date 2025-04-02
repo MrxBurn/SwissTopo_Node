@@ -1,0 +1,44 @@
+
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - swisstopo_api
+
+  swisstopo_api:
+    build: .
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=swisstopo_postgis
+      - DB_USER=postgres
+      - DB_PASSWORD=swisstopo
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgis/postgis:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: swisstopo
+      POSTGRES_DB: swisstopo_postgis
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+
+volumes:
+  postgres-data:
