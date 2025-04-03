@@ -3,7 +3,7 @@ import cors from 'cors'
 import client from './postgres_connection.js'
 
 
-const app = express();
+export const app = express();
 
 app.use(cors());
 

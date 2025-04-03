@@ -2,11 +2,11 @@ import pg from 'pg';
 
 
 const client = new pg.Client({
-  user: 'postgres',  // Default is usually 'postgres'
-  host: 'localhost',           // Use the container's IP if needed
-  database: 'swisstopo_postgis',   // Change to your database name
-  password: 'swisstopo',   // Set this properly
-  port: 5432,                  // Default PostgreSQL port
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 client.connect()
