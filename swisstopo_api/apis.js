@@ -14,7 +14,9 @@ app.use(express.json());
 app.get('/getMarkers', async (req, res) => {
     try {
 
-        const result = await client.query('SELECT * FROM public.topo_markers');
+        const result = await client.query('SELECT id, title, description, ST_X(geom) AS longitude, ST_Y(geom) AS latitude, created_at FROM public.topo_markers;');
+
+
         res.json(result.rows);
 
     }
