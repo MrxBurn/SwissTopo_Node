@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "NODE_ENV=test vitest test --coverage",
-    "lint": "eslint ."
+    "lint": "eslint swisstopo_api"
   },
   "author": "",
   "license": "ISC",
