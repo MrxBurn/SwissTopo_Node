@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(process.env.DB_NAME);
 const client = new pg.Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -12,9 +11,10 @@ const client = new pg.Client({
   port: process.env.DB_PORT,
 });
 
-client.connect()
-  .then(() => console.log('Connected to PostGIS!'))
-  .catch(err => console.error('Connection error', err.stack));
-
+if (process.env.NODE_ENV !== 'test') {
+  client.connect()
+    .then(() => console.log('Connected to PostGIS!'))
+    .catch(err => console.error('Connection error', err.stack));
+}
 
 export default client;
